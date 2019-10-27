@@ -1,4 +1,6 @@
-package br.com.sistemaEstoque.model;
+package br.com.sistemaEstoque.model.bean;
+
+
 
 public class Produto {
 

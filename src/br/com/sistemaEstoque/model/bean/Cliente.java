@@ -1,4 +1,4 @@
-package br.com.sistemaEstoque.model;
+package br.com.sistemaEstoque.model.bean;
 
 public class Cliente {
 
@@ -6,6 +6,10 @@ public class Cliente {
     private String nomeCliente;
 
     public Cliente() {
+    }
+
+    public Cliente(String nome) {
+        this.nomeCliente = nome;
     }
 
     public Cliente(int id_cli, String nome_cli) {
