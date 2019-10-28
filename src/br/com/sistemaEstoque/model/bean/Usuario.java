@@ -1,7 +1,5 @@
 package br.com.sistemaEstoque.model.bean;
 
-
-
 public class Usuario {
 
     private int idUsuario;

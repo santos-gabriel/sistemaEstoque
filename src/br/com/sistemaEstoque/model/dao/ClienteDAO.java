@@ -30,7 +30,8 @@ public class ClienteDAO {
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Salvo com sucesso!");
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao salvar! " + ex);
+            JOptionPane.showMessageDialog(null, "Erro ao salvar! ");
+            System.out.println(ex);
         } finally {
             ConexaoMysql.closeConnection(conexao, stmt);
         }
@@ -50,7 +51,8 @@ public class ClienteDAO {
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Atualizado com sucesso!");
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao atualizar! " + ex);
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar! ");
+            System.out.println(ex);
         } finally {
             ConexaoMysql.closeConnection(conexao, stmt);
         }
@@ -69,7 +71,8 @@ public class ClienteDAO {
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Excluído com sucesso com sucesso!");
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao excluir! " + ex);
+            JOptionPane.showMessageDialog(null, "Erro ao excluir! ");
+            System.out.println(ex);
         } finally {
             ConexaoMysql.closeConnection(conexao, stmt);
         }
@@ -97,6 +100,7 @@ public class ClienteDAO {
 
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao carregar arquivos");
+            System.out.println(ex);
         } finally {
             ConexaoMysql.closeConnection(conexao, stmt, rs);
         }
