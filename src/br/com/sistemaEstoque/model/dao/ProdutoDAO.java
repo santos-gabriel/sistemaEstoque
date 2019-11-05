@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 
 public class ProdutoDAO {
 
-    Connection conexao = null;
+    private Connection conexao = null;
 
     public ProdutoDAO() {
         conexao = ConexaoMysql.getConnection();
