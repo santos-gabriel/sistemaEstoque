@@ -5,6 +5,7 @@
  */
 package br.com.sistemaEstoque.view.cadastros;
 
+import br.com.sistemaEstoque.controller.CtrlProduto;
 import br.com.sistemaEstoque.model.bean.Produto;
 import br.com.sistemaEstoque.model.dao.ProdutoDAO;
 import javax.swing.JOptionPane;
@@ -72,16 +73,14 @@ public class FrmCadastroProduto extends javax.swing.JFrame {
         prod.setNomeProduto(txtNome.getText());
         prod.setPrecoProduto(Double.parseDouble(txtPreco.getText().replaceAll(",", ".")));
         prod.setQuantidadeProduto(Integer.parseInt(txtQuantidade.getText()));
-        ProdutoDAO prodDAO = new ProdutoDAO();
-        prodDAO.salvar(prod);
+        CtrlProduto.inserir(prod);
     }
 
     private void listarTabela() {
         DefaultTableModel dtm = (DefaultTableModel) tbProduto.getModel();
         dtm.setNumRows(0);
-        ProdutoDAO clienteDAO = new ProdutoDAO();
 
-        for (Produto prod : clienteDAO.leitura()) {
+        for (Produto prod : CtrlProduto.list()) {
 
             dtm.addRow(new Object[]{
                 prod.getIdProduto(),
@@ -190,9 +189,18 @@ public class FrmCadastroProduto extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Código", "Nome", "Quantidade", "Preço"
+                "Código", "Nome", "Preço", "Quantidade"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbProduto.getTableHeader().setReorderingAllowed(false);
         tbProduto.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbProdutoMouseClicked(evt);
@@ -204,6 +212,17 @@ public class FrmCadastroProduto extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(tbProduto);
+        if (tbProduto.getColumnModel().getColumnCount() > 0) {
+            tbProduto.getColumnModel().getColumn(0).setMinWidth(50);
+            tbProduto.getColumnModel().getColumn(0).setPreferredWidth(60);
+            tbProduto.getColumnModel().getColumn(0).setMaxWidth(65);
+            tbProduto.getColumnModel().getColumn(2).setMinWidth(65);
+            tbProduto.getColumnModel().getColumn(2).setPreferredWidth(75);
+            tbProduto.getColumnModel().getColumn(2).setMaxWidth(100);
+            tbProduto.getColumnModel().getColumn(3).setMinWidth(60);
+            tbProduto.getColumnModel().getColumn(3).setPreferredWidth(75);
+            tbProduto.getColumnModel().getColumn(3).setMaxWidth(80);
+        }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -216,7 +235,7 @@ public class FrmCadastroProduto extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
                 .addContainerGap())
@@ -324,8 +343,8 @@ public class FrmCadastroProduto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
+        this.setVisible(false);
         this.dispose();
-        System.exit(0);
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
@@ -351,11 +370,10 @@ public class FrmCadastroProduto extends javax.swing.JFrame {
         DefaultTableModel dtm = (DefaultTableModel) tbProduto.getModel();
         if (tbProduto.getSelectedRow() != -1) {
             Produto produto = new Produto();
-            ProdutoDAO produtoDAO = new ProdutoDAO();
 
             produto.setIdProduto((int) tbProduto.getValueAt(tbProduto.getSelectedRow(), 0));
 
-            produtoDAO.delete(produto);
+            CtrlProduto.excluir(produto);
             desabilitarCampos();
             listarTabela();
         } else {
@@ -390,14 +408,13 @@ public class FrmCadastroProduto extends javax.swing.JFrame {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if (tbProduto.getSelectedRow() != -1) {
             Produto produto = new Produto();
-            ProdutoDAO produtoDAO = new ProdutoDAO();
 
             produto.setIdProduto((int) tbProduto.getValueAt(tbProduto.getSelectedRow(), 0));
             produto.setNomeProduto(txtNome.getText());
             produto.setPrecoProduto(Double.parseDouble(txtPreco.getText().replaceAll(",", ".")));
             produto.setQuantidadeProduto(Integer.parseInt(txtQuantidade.getText()));
 
-            produtoDAO.editar(produto);
+            CtrlProduto.editar(produto);
             desabilitarCampos();
             listarTabela();
         }

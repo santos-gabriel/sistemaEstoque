@@ -5,6 +5,7 @@
  */
 package br.com.sistemaEstoque.view.cadastros;
 
+import br.com.sistemaEstoque.controller.CtrlFornecedor;
 import br.com.sistemaEstoque.model.bean.Fornecedor;
 import br.com.sistemaEstoque.model.dao.FornecedorDAO;
 import javax.swing.JOptionPane;
@@ -41,7 +42,7 @@ public class FrmCadastroFornecedor extends javax.swing.JFrame {
         btnExcluir.setEnabled(false);
         btnSalvar.setEnabled(false);
         btnEditar.setEnabled(false);
-        txtNome.setText("");
+        txtNome.setText("Nome/Razão Social");
         txtNome.setEditable(false);
     }
 
@@ -53,17 +54,15 @@ public class FrmCadastroFornecedor extends javax.swing.JFrame {
     private void gravarBD() {
         Fornecedor fornecedor = new Fornecedor();
         fornecedor.setNomeFornecedor(txtNome.getText());
-        FornecedorDAO fornecedorDao = new FornecedorDAO();
-        fornecedorDao.salvar(fornecedor);
+        CtrlFornecedor.inserir(fornecedor);
     }
 
     private void listarTabela() {
 
         DefaultTableModel modelo = (DefaultTableModel) tbFornecedor.getModel();
         modelo.setNumRows(0);
-        FornecedorDAO fornecedorDao = new FornecedorDAO();
 
-        for (Fornecedor f : fornecedorDao.leitura()) {
+        for (Fornecedor f : CtrlFornecedor.list()) {
             modelo.addRow(new Object[]{
                 f.getIdFornecedor(),
                 f.getNomeFornecedor()
@@ -125,6 +124,7 @@ public class FrmCadastroFornecedor extends javax.swing.JFrame {
         txtCodigo.setBackground(new java.awt.Color(204, 204, 204));
 
         txtNome.setEditable(false);
+        txtNome.setText("Nome/Razão Social");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -239,6 +239,7 @@ public class FrmCadastroFornecedor extends javax.swing.JFrame {
                 "Código", "Nome"
             }
         ));
+        tbFornecedor.getTableHeader().setReorderingAllowed(false);
         tbFornecedor.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbFornecedorMouseClicked(evt);
@@ -250,6 +251,11 @@ public class FrmCadastroFornecedor extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(tbFornecedor);
+        if (tbFornecedor.getColumnModel().getColumnCount() > 0) {
+            tbFornecedor.getColumnModel().getColumn(0).setMinWidth(65);
+            tbFornecedor.getColumnModel().getColumn(0).setPreferredWidth(70);
+            tbFornecedor.getColumnModel().getColumn(0).setMaxWidth(85);
+        }
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -326,11 +332,10 @@ public class FrmCadastroFornecedor extends javax.swing.JFrame {
         DefaultTableModel dtm = (DefaultTableModel) tbFornecedor.getModel();
         if (tbFornecedor.getSelectedRow() != -1) {
             Fornecedor fornecedor = new Fornecedor();
-            FornecedorDAO fornecedorDAO = new FornecedorDAO();
 
             fornecedor.setIdFornecedor((int) tbFornecedor.getValueAt(tbFornecedor.getSelectedRow(), 0));
 
-            fornecedorDAO.delete(fornecedor);
+            CtrlFornecedor.excluir(fornecedor);
             desabilitarCampos();
             listarTabela();
         } else {
@@ -340,7 +345,7 @@ public class FrmCadastroFornecedor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void tbFornecedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbFornecedorMouseClicked
-
+        habilitarCampos();
         if (tbFornecedor.getSelectedRow() != -1) {
             btnEditar.setEnabled(true);
             btnExcluir.setEnabled(true);
@@ -352,7 +357,7 @@ public class FrmCadastroFornecedor extends javax.swing.JFrame {
     }//GEN-LAST:event_tbFornecedorMouseClicked
 
     private void tbFornecedorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbFornecedorKeyReleased
-
+        habilitarCampos();
         if (tbFornecedor.getSelectedRow() != -1) {
             btnEditar.setEnabled(true);
             btnExcluir.setEnabled(true);
@@ -367,12 +372,11 @@ public class FrmCadastroFornecedor extends javax.swing.JFrame {
 
         if (tbFornecedor.getSelectedRow() != -1) {
             Fornecedor fornecedor = new Fornecedor();
-            FornecedorDAO fornecedorDAO = new FornecedorDAO();
 
             fornecedor.setIdFornecedor((int) tbFornecedor.getValueAt(tbFornecedor.getSelectedRow(), 0));
             fornecedor.setNomeFornecedor(txtNome.getText());
 
-            fornecedorDAO.editar(fornecedor);
+            CtrlFornecedor.editar(fornecedor);
             desabilitarCampos();
             listarTabela();
         }

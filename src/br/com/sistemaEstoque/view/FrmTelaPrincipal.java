@@ -6,6 +6,8 @@
 package br.com.sistemaEstoque.view;
 
 import br.com.sistemaEstoque.view.cadastros.FrmCadastroCliente;
+import br.com.sistemaEstoque.view.cadastros.FrmCadastroFornecedor;
+import br.com.sistemaEstoque.view.cadastros.FrmCadastroProduto;
 
 /**
  *
@@ -33,10 +35,13 @@ public class FrmTelaPrincipal extends javax.swing.JFrame {
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        menuCadUsuarios = new javax.swing.JMenuItem();
+        menuCadClientes = new javax.swing.JMenuItem();
+        menuCadProdutos = new javax.swing.JMenuItem();
+        menuCadFornecedores = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        menuSair = new javax.swing.JMenuItem();
+        menuLogout = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("System");
@@ -55,24 +60,54 @@ public class FrmTelaPrincipal extends javax.swing.JFrame {
 
         jMenu1.setText("Cadastros");
 
-        jMenuItem1.setText("Usuários");
-        jMenu1.add(jMenuItem1);
+        menuCadUsuarios.setText("Usuários");
+        jMenu1.add(menuCadUsuarios);
 
-        jMenuItem2.setText("Clientes");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        menuCadClientes.setText("Clientes");
+        menuCadClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                menuCadClientesActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem2);
+        jMenu1.add(menuCadClientes);
 
-        jMenuItem3.setText("Produtos");
-        jMenu1.add(jMenuItem3);
+        menuCadProdutos.setText("Produtos");
+        menuCadProdutos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuCadProdutosActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menuCadProdutos);
 
-        jMenuItem4.setText("Fornecedores");
-        jMenu1.add(jMenuItem4);
+        menuCadFornecedores.setText("Fornecedores");
+        menuCadFornecedores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuCadFornecedoresActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menuCadFornecedores);
 
         jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Finalizar");
+
+        menuSair.setText("Sair");
+        menuSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuSairActionPerformed(evt);
+            }
+        });
+        jMenu2.add(menuSair);
+
+        menuLogout.setText("Trocar usuário");
+        menuLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuLogoutActionPerformed(evt);
+            }
+        });
+        jMenu2.add(menuLogout);
+
+        jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
 
@@ -91,10 +126,33 @@ public class FrmTelaPrincipal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void menuCadClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCadClientesActionPerformed
         FrmCadastroCliente cadCliente = new FrmCadastroCliente();
         cadCliente.setVisible(true);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_menuCadClientesActionPerformed
+
+    private void menuCadProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCadProdutosActionPerformed
+        FrmCadastroProduto cadProd = new FrmCadastroProduto();
+        cadProd.setVisible(true);
+    }//GEN-LAST:event_menuCadProdutosActionPerformed
+
+    private void menuCadFornecedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCadFornecedoresActionPerformed
+        FrmCadastroFornecedor cadFornecedor = new FrmCadastroFornecedor();
+        cadFornecedor.setVisible(true);
+    }//GEN-LAST:event_menuCadFornecedoresActionPerformed
+
+    private void menuSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSairActionPerformed
+        this.setVisible(false);
+        this.dispose();
+        System.exit(0);
+    }//GEN-LAST:event_menuSairActionPerformed
+
+    private void menuLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLogoutActionPerformed
+        this.setVisible(false);
+        FrmLogin login = new FrmLogin();
+        login.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_menuLogoutActionPerformed
 
     /**
      * @param args the command line arguments
@@ -135,10 +193,13 @@ public class FrmTelaPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem menuCadClientes;
+    private javax.swing.JMenuItem menuCadFornecedores;
+    private javax.swing.JMenuItem menuCadProdutos;
+    private javax.swing.JMenuItem menuCadUsuarios;
+    private javax.swing.JMenuItem menuLogout;
+    private javax.swing.JMenuItem menuSair;
     // End of variables declaration//GEN-END:variables
 }

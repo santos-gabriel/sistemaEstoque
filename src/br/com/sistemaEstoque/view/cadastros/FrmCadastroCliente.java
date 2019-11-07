@@ -5,6 +5,7 @@
  */
 package br.com.sistemaEstoque.view.cadastros;
 
+import br.com.sistemaEstoque.controller.CtrlCliente;
 import br.com.sistemaEstoque.model.bean.Cliente;
 import br.com.sistemaEstoque.model.dao.ClienteDAO;
 import javax.swing.JOptionPane;
@@ -43,23 +44,22 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
         btnExcluir.setEnabled(false);
         btnSalvar.setEnabled(false);
         btnEditar.setEnabled(false);
-        txtNome.setText("");
+        txtNome.setText("Digite o nome do cliente");
         txtNome.setEditable(false);
+        txtCodigo.setText("");
     }
 
     private void gravarBD() {
         Cliente cli = new Cliente();
         cli.setNomeCliente(txtNome.getText());
-        ClienteDAO cliDAO = new ClienteDAO();
-        cliDAO.salvar(cli);
+        CtrlCliente.gravar(cli);
     }
 
     private void listarTabela() {
         DefaultTableModel dtm = (DefaultTableModel) tbCliente.getModel();
         dtm.setNumRows(0);
-        ClienteDAO clienteDAO = new ClienteDAO();
 
-        for (Cliente cli : clienteDAO.leitura()) {
+        for (Cliente cli : CtrlCliente.listar()) {
 
             dtm.addRow(new Object[]{
                 cli.getIdCliente(),
@@ -107,6 +107,11 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
 
         txtNome.setEditable(false);
         txtNome.setText("Digite o nome do cliente");
+        txtNome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNomeActionPerformed(evt);
+            }
+        });
         txtNome.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtNomeKeyPressed(evt);
@@ -158,6 +163,7 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tbCliente.getTableHeader().setReorderingAllowed(false);
         tbCliente.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbClienteMouseClicked(evt);
@@ -169,6 +175,11 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(tbCliente);
+        if (tbCliente.getColumnModel().getColumnCount() > 0) {
+            tbCliente.getColumnModel().getColumn(0).setMinWidth(65);
+            tbCliente.getColumnModel().getColumn(0).setPreferredWidth(70);
+            tbCliente.getColumnModel().getColumn(0).setMaxWidth(85);
+        }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -298,6 +309,7 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
         txtNome.setText("");
         txtNome.setEditable(true);
         txtNome.requestFocus(true);
+        txtCodigo.setText("");
         habilitarCampos();
         btnSalvar.setEnabled(true);
     }//GEN-LAST:event_btnNovoActionPerformed
@@ -322,11 +334,10 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
         DefaultTableModel dtm = (DefaultTableModel) tbCliente.getModel();
         if (tbCliente.getSelectedRow() != -1) {
             Cliente cliente = new Cliente();
-            ClienteDAO clienteDAO = new ClienteDAO();
 
             cliente.setIdCliente((int) tbCliente.getValueAt(tbCliente.getSelectedRow(), 0));
 
-            clienteDAO.delete(cliente);
+            CtrlCliente.delete(cliente);
             desabilitarCampos();
             listarTabela();
         } else {
@@ -335,6 +346,7 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void tbClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbClienteMouseClicked
+        habilitarCampos();
         if (tbCliente.getSelectedRow() != -1) {
             btnEditar.setEnabled(true);
             btnExcluir.setEnabled(true);
@@ -345,6 +357,7 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_tbClienteMouseClicked
 
     private void tbClienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbClienteKeyReleased
+        habilitarCampos();
         if (tbCliente.getSelectedRow() != -1) {
             btnEditar.setEnabled(true);
             btnExcluir.setEnabled(true);
@@ -357,12 +370,11 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if (tbCliente.getSelectedRow() != -1) {
             Cliente cliente = new Cliente();
-            ClienteDAO clienteDAO = new ClienteDAO();
 
             cliente.setIdCliente((int) tbCliente.getValueAt(tbCliente.getSelectedRow(), 0));
             cliente.setNomeCliente(txtNome.getText());
 
-            clienteDAO.editar(cliente);
+            CtrlCliente.editar(cliente);
             desabilitarCampos();
             listarTabela();
         }
@@ -371,6 +383,10 @@ public class FrmCadastroCliente extends javax.swing.JFrame {
     private void txtNomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeKeyPressed
 
     }//GEN-LAST:event_txtNomeKeyPressed
+
+    private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNomeActionPerformed
 
     /**
      * @param args the command line arguments
